@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph Example</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="video-container">
+        <video autoplay loop muted playsinline>
+            <source src="videos/3125273-uhd_3840_2160_25fps.mp4" type="video/mp4">
+            Tu navegador no soporta videos HTML5.
+        </video>
+    </div>
+    <div id="initialButtons">
+        <button id="newport" class="btn">New Port</button>
+    </div>
+    <div id="formFields">
+        <input id="codeport" type="text" placeholder="Code Port">
+        <input id="name" type="text" placeholder="Name">
+        <input id="country" type="text" placeholder="Country">
+        <button id="newnode" class="btn">Accept</button>
+    </div>
+    <div id="comboboxContainer"></div>
+    <div id="graphActions">
+        <button id="dfsButton" class="btn">Run DFS</button>
+        <button id="dijkstraButton" class="btn">Run Dijkstra</button>
+    </div>
+    <div id="dijkstraFields">
+        <input id="startPoint" type="text" placeholder="Start Point">
+        <input id="endPoint" type="text" placeholder="End Point">
+    </div>
+    <div id="dfsResults" class="results">
+        <h3>DFS Results:</h3>
+        <ul id="dfsOutput"></ul>
+    </div>
+    <div id="dijkstraResults" class="results">
+        <h3>Dijkstra Results:</h3>
+        <ul id="dijkstraOutput"></ul>
+    </div>
+    <script type="module" src="src/controllers/scripts.mjs"></script>
+</body>
+</html>
