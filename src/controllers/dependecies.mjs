@@ -1,5 +1,3 @@
 import { LinkedList } from "../models/LinkedList.mjs";
-
-const list = new LinkedList()
-
-export {list}
+const list = new LinkedList();
+export { list };

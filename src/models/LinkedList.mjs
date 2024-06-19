@@ -1,5 +1,4 @@
 import { Node } from "./Node.mjs";
-
 export class LinkedList {
     #count;
     #head;
@@ -8,6 +7,7 @@ export class LinkedList {
         this.#count = 0;
         this.#head = null;
     }
+
     recorrido() {
         const elements = [];
         for (let current = this.#head; current !== null; current = current.next) {
@@ -30,6 +30,16 @@ export class LinkedList {
         }
         this.#count++;
     }
+    
+    size() {
+        return this.#count;
+    }
 
-  
+    isEmpty() {
+        return this.#count === 0;
+    }
+
+    getHead() {
+        return this.#head;
+    }
 }

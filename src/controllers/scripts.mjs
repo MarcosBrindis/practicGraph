@@ -1,4 +1,3 @@
-import { list } from "./dependecies.mjs";
 import Port from "../models/Port.mjs";
 import Graph from "../models/Graph.mjs";
 
@@ -43,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (codeport && name && country) {
             const newPort = new Port(codeport, name, country);
             ports.push(newPort);
-            graph.addV(newPort);
+            graph.addV(newPort.codeport);
             if (!combobox1 && !combobox2 && !distanceInput) {
                 createComboboxes();
             }

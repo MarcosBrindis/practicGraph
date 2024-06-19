@@ -1,17 +1,20 @@
+import { LinkedList } from "./LinkedList.mjs";
+
 export default class Graph {
-    constructor() {
-        this.vertices = new Map();
-        this.edges = new Map();
+    #matrizAdyacencia = [];
+    #map = new Map();
+
+    addV(value) {
+        this.#matrizAdyacencia.push(new LinkedList());
+        this.#map.set(value, this.#matrizAdyacencia.length - 1);
     }
 
-    addV(port) {
-        this.vertices.set(port.codeport, port);
-        this.edges.set(port.codeport, []);
-    }
-
-    addConexion(v1, v2, weight) {
-        this.edges.get(v1).push({ node: v2, weight: weight });
-        this.edges.get(v2).push({ node: v1, weight: weight });
+    addConexion(start, end, weight = 1) {
+        if (this.#map.has(start) && this.#map.has(end)) {
+            this.#matrizAdyacencia[this.#map.get(start)].push({ name: end, weight: weight });
+            return true;
+        }
+        return false;
     }
 
     dfs(callback) {
@@ -20,12 +23,13 @@ export default class Graph {
             if (!visited.has(vertex)) {
                 visited.add(vertex);
                 callback(vertex);
-                const neighbors = this.edges.get(vertex);
-                neighbors.forEach(neighbor => dfsVisit(neighbor.node));
+                const neighbors = this.#matrizAdyacencia[this.#map.get(vertex)];
+                let neighborList = neighbors.recorrido();
+                neighborList.forEach(neighbor => dfsVisit(neighbor.name));
             }
         };
 
-        for (const key of this.vertices.keys()) {
+        for (const key of this.#map.keys()) {
             if (!visited.has(key)) {
                 dfsVisit(key);
             }
@@ -37,7 +41,7 @@ export default class Graph {
         let visited = new Set();
         let previous = {};
 
-        this.vertices.forEach((value, key) => {
+        this.#map.forEach((value, key) => {
             distances[key] = Infinity;
             previous[key] = null;
         });
@@ -50,17 +54,18 @@ export default class Graph {
             priorityQueue.delete(minDistanceVertex);
             visited.add(minDistanceVertex);
 
-            let neighbors = this.edges.get(minDistanceVertex);
-            neighbors.forEach(neighbor => {
-                if (!visited.has(neighbor.node)) {
+            let neighbors = this.#matrizAdyacencia[this.#map.get(minDistanceVertex)];
+            let neighborList = neighbors.recorrido();
+            for (let neighbor of neighborList) {
+                if (!visited.has(neighbor.name)) {
                     let newDist = distances[minDistanceVertex] + neighbor.weight;
-                    if (newDist < distances[neighbor.node]) {
-                        distances[neighbor.node] = newDist;
-                        previous[neighbor.node] = minDistanceVertex;
-                        priorityQueue.add(neighbor.node);
+                    if (newDist < distances[neighbor.name]) {
+                        distances[neighbor.name] = newDist;
+                        previous[neighbor.name] = minDistanceVertex;
+                        priorityQueue.add(neighbor.name);
                     }
                 }
-            });
+            }
         }
 
         return { distances, previous };
