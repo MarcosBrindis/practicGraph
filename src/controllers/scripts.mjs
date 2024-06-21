@@ -134,15 +134,21 @@ document.addEventListener('DOMContentLoaded', () => {
     dijkstraButton.addEventListener('click', () => {
         const startPoint = startPointInput.value.trim();
         const endPoint = endPointInput.value.trim();
+        const inf = 100000000;
+    
         if (startPoint && endPoint) {
             const { distances, previous } = graph.dijkstra(startPoint);
+            const endPointIndex = graph.getVertexIndex(endPoint); 
+    
             dijkstraResults.style.display = 'block';
             dijkstraOutput.innerHTML = '';
+    
             let path = [];
             for (let at = endPoint; at; at = previous[at]) {
                 path.push(at);
             }
             path.reverse();
+    
             path.forEach(node => {
                 const port = ports.find(p => p.codeport === node);
                 if (port) {
@@ -151,8 +157,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     dijkstraOutput.appendChild(resultItem);
                 }
             });
+    
             const distanceItem = document.createElement('li');
-            distanceItem.textContent = `Total distance: ${distances[endPoint]} nautical miles`;
+            if (distances[endPointIndex] !== undefined && distances[endPointIndex] !== inf) {
+                distanceItem.textContent = `Total distance: ${distances[endPointIndex]} nautical miles`;
+            } else {
+                distanceItem.textContent = 'No path found between the selected points.';
+            }
             dijkstraOutput.appendChild(distanceItem);
         } else {
             alert('Please enter both start and end points.');
